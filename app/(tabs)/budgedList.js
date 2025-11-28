@@ -129,7 +129,7 @@ export default function BudgedList() {
 
 								// Total por categoría
 								const totalCategoria = items.reduce(
-									(sum, t) => sum + (parseFloat(t.amount) || 0),
+									(sum, t) => sum + (((t.category=="income"?1:1)* parseFloat(t.amount)) || 0),
 									0
 								);
 

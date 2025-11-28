@@ -109,20 +109,24 @@ export function TransactionList() {
 		t.setSeconds(secs);
 		return t;
 	};
+	function toDateFromSecondsNoTime(seconds) {
+		const d = new Date(seconds * 1000); // segundos → milisegundos
+		// Crear un Date solo con año/mes/día
+		return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+	}
 
 	const groupByDay = (list) => {
 		const result = {};
 
 		list.forEach((t) => {
-			const day = format(toDateTime(t.createdAt.seconds), "yyyy/MM/dd");
-
+			const day = toDateFromSecondsNoTime(t.createdAt.seconds);
+			console.log(day);
 			if (!result[day]) {
 				result[day] = [];
 			}
 
 			result[day].push(t);
 		});
-
 		return result;
 	};
 
@@ -217,10 +221,12 @@ export function TransactionList() {
 							([day, items]) => {
 								// Total por día
 								const dayTotal = items.reduce(
-									(sum, t) => sum + parseFloat(t.amount),
+									(sum, t) =>
+										sum +
+										((t.type == "income" ? 1 : -1) *
+											parseFloat(t.amount) || 0),
 									0
 								);
-
 								return (
 									<View
 										key={day}
