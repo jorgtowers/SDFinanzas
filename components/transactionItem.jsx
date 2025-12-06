@@ -47,11 +47,7 @@ export function TransactionItem({ styles, o, types, categories, collection }) {
 									"en-EU",
 									"USD"
 								)}
-								{" (" +
-									(o.type == "income" || o.type == "credit"
-										? "+"
-										: "-") +
-									")"}
+								{( types.find(t=>t.Value==o.type)?.Icon) }
 							</Text>
 						</View>
 						<View style={styles.filaSuperior}>
@@ -69,7 +65,7 @@ export function TransactionItem({ styles, o, types, categories, collection }) {
 										(x) => x.Value == o.category
 									)?.Emoji
 								}{" "}
-								{o.category}
+								{o.category} - {o.type}
 							</Text>
 						</View>
 					</View>

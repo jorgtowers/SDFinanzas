@@ -6,8 +6,10 @@ export default function TabLayout() {
         <Tabs
             screenOptions={{
                 headerShown: false,
-                tabBarStyle: { backgroundColor: '#ffffffff', borderTopColor: "gray" },
+                tabBarStyle: { backgroundColor: '#000000ff', borderTopColor: "gray" },
                 tabBarActiveTintColor: 'cyan',
+                backgroundColor:"#9c2a2aff",
+
             }}
         >
             <Tabs.Screen name="index"
@@ -24,11 +26,17 @@ export default function TabLayout() {
             <Tabs.Screen name="transactionAddScreen"
                 options={{
                     title: "Transaction",
+                    headerShown: true,
+                    headerTintColor:"#ffffffff",
+                    headerStyle:{ backgroundColor:"rgba(0, 0, 0, 1)" },
                     tabBarIcon: ({ color }) => <PencilIcon color={color} />
                 }} />
             <Tabs.Screen name="budgedAddScreen"
                 options={{
                     title: "Budged",
+                      headerShown: true,
+                    headerTintColor:"#ffffffff",
+                    headerStyle:{ backgroundColor:"rgba(0, 0, 0, 1)" },
                     tabBarIcon: ({ color }) => <PlusIcon color={color} />
                 }} />
         </Tabs>

@@ -7,6 +7,7 @@ import { categories, types } from "../database/master";
 import { TransactionItem } from "./transactionItem";
 import { CardSummary } from "./cardSummary";
 import { format } from "date-fns";
+import { Screen } from "expo-router/build/views/Screen";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 
 export function TransactionList() {
@@ -16,22 +17,22 @@ export function TransactionList() {
 	const [balance, setBalance] = useState(0);
 	const [credits, setCredits] = useState(0);
 	const [debits, setDebits] = useState(0);
-	const [transactionType, setTransactionType] = useState("income");
+	const [transactionType, setTransactionType] = useState("balance");
 
 	let updateStates = (transactionsArray) => {
 		if (transactionType === "balance") {
 			setTransactions(transactionsArray);
 		} else {
-			let filtered = transactionsArray.filter(
-				(x) => x.type == transactionType
-			);
+			let join =types.find(x=>x.Value==transactionType).Join; 
+			let joins=types.filter(t=>t.Join==join).map(y=>y.Value);
+			let filtered = transactionsArray.filter(x=> joins.includes(x.type));
 			setTransactions(filtered);
 		}
 
 		const incomesType = ["income"];
 		const expensesType = ["expense"];
-		const creditType = ["credit"];
-		const debitType = ["debit"];
+		const creditType = types.filter((x) => x.Join == "Credits").map((x) => x.Value);
+		const debitType = types.filter((x) => x.Join == "Debits").map((x) => x.Value);
 
 		// Inicializar sumas si aún no están definidas
 		let totalIncomes = 0,
@@ -42,7 +43,7 @@ export function TransactionList() {
 		transactionsArray.forEach((transaction) => {
 			// 1. Uso de 'includes' en lugar de 'contains'
 			const type = transaction?.type;
-			const amount = parseFloat(transaction?.amount);
+			const amount = parseFloat(transaction?.amount) * ((types.find(x=>x.Value==type)?.Factor??1));
 
 			// 2. Manejo explícito de valores no numéricos o nulos
 			if (isNaN(amount) || amount === null) {
@@ -68,7 +69,7 @@ export function TransactionList() {
 		setExpenses(totalExpenses);
 		setCredits(totalCredits);
 		setDebits(totalDebits);
-		setBalance(totalIncomes - totalExpenses);
+		setBalance(totalIncomes + totalExpenses);
 	};
 
 	useEffect(() => {
@@ -120,7 +121,6 @@ export function TransactionList() {
 
 		list.forEach((t) => {
 			const day = toDateFromSecondsNoTime(t.createdAt.seconds);
-			console.log(day);
 			if (!result[day]) {
 				result[day] = [];
 			}
@@ -155,7 +155,7 @@ export function TransactionList() {
 							"black"
 						}
 						percentSide2SideTitle={
-							"(" + ((expenses / incomes) * 100).toFixed(2) + "%)"
+							"(" + (((expenses*-1) / incomes) * 100).toFixed(2) + "%)"
 						}
 						value={expenses}
 					/>
@@ -167,6 +167,9 @@ export function TransactionList() {
 					title={"Balance"}
 					color={"#29439eff"}
 					value={balance}
+					percentSide2SideTitle={
+							"(" + (100-((expenses*-1) / incomes) * 100).toFixed(2) + "%)"
+						}
 				/>
 
 				<View style={styles.filaSuperior}>
@@ -223,7 +226,7 @@ export function TransactionList() {
 								const dayTotal = items.reduce(
 									(sum, t) =>
 										sum +
-										((t.type == "income" ? 1 : -1) *
+										((types.find(x=>x.Value==t.type).Factor) *
 											parseFloat(t.amount) || 0),
 									0
 								);
@@ -329,6 +332,7 @@ const styles = StyleSheet.create({
 	contaiterMargin: {
 		flex: 1,
 		padding: 10,
+		backgroundColor:"rgba(0, 0, 0, 1)"
 	},
 
 	filaSuperior: {

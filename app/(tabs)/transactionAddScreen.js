@@ -15,6 +15,9 @@ export default function TransactionAddScreen() {
         description: '',
         category: '',
         type: '',
+        usd:0,
+        factor:0,
+        ves:0,
         createdAt: new Date(),
     });
 
@@ -72,11 +75,51 @@ export default function TransactionAddScreen() {
 
                     <Text style={styles.label}>Amount:</Text>
 
-                    <TextInput placeholder="Amount"
+                    <TextInput 
                         value={newItem.amount}
+                         placeholder="0.00"
                         keyboardType="number-pad"
                         style={styles.input}
                         onChangeText={(text) => setNewItem({ ...newItem, amount: text })}>
+
+                    </TextInput>
+                </View>
+                                <View style={styles.container}>
+
+                    <Text style={styles.label}>USD:</Text>
+
+                    <TextInput 
+                        value={newItem.usd}
+                         placeholder="0.00"
+                        keyboardType="number-pad"
+                        style={styles.input}
+                        onChangeText={(text) => setNewItem({ ...newItem, usd: text })}>
+
+                    </TextInput>
+                </View>
+                                <View style={styles.container}>
+
+                    <Text style={styles.label}>Factor:</Text>
+
+                    <TextInput 
+                        value={newItem.factor}
+                         placeholder="0.00"
+                        keyboardType="number-pad"
+                        style={styles.input}
+                        onChangeText={(text) => setNewItem({ ...newItem, factor: text })}>
+
+                    </TextInput>
+                </View>
+                                <View style={styles.container}>
+
+                    <Text style={styles.label}>VES:</Text>
+
+                    <TextInput 
+                        value={newItem.ved}
+                         placeholder="0.00"
+                        keyboardType="number-pad"
+                        style={styles.input}
+                        onChangeText={(text) => setNewItem({ ...newItem, ves: text })}>
 
                     </TextInput>
                 </View>
@@ -96,6 +139,8 @@ const styles = StyleSheet.create({
     },
     input:{
         padding:5,
-        fontSize:20
+        fontSize:20,
+        backgroundColor:"gray",
+        margin:5
     }
 });

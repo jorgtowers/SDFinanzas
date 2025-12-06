@@ -11,6 +11,9 @@ export function PencilIcon(props){
 export function PlusIcon(props){
  return   <FontAwesome name="plus" size={24} color="white" {...props} />
 }
+export function CalculatorIcon(props){
+ return   <FontAwesome name="calculator" size={24} color="white" {...props} />
+}
 
 export function CircleInfoIcon(props){
  return   <Entypo name="info-with-circle" size={24} color="white" {...props} />

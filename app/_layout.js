@@ -8,12 +8,13 @@ export default function Layout() {
   return (
     <View style={styles.container}>
       <Stack  screenOptions={{
-        headerStyle:{ backgroundColor:"gray", padding:5},
+        headerStyle:{ backgroundColor:"red", padding:10},
         headerTintColor:"black",
         headerTitle:"",
         headerShown:false,
         headerLeft:()=><></>,
-        headerRight:()=><></>
+        headerRight:()=><></>,
+        backgroundColor:"red"
       }} />
 
     </View>

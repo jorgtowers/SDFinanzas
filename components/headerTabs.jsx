@@ -8,10 +8,8 @@ export function HeaderTabs({titleScreen, destinationURL}){
                 options={{
                     title: titleScreen,
                     headerShown: true,
-                    headerTitleStyle: {
-                        fontSize: 20,
-                        fontWeight: "bold",
-                    },
+                    headerTintColor:"#fff",
+                    headerStyle:{ backgroundColor:"rgba(0, 0, 0, 1)" },
                     headerRight: () => (
                         <Pressable
                             style={{ marginLeft: 10 }}
